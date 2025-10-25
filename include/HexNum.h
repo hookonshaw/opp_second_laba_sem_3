@@ -1,6 +1,8 @@
 #pragma once
-#include <string>
+
 #include "Vector.h"
+
+#include <string>
 
 class HexNum {
 private:

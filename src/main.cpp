@@ -1,4 +1,5 @@
 #include "HexNum.h"
+
 #include <iostream>
 #include <string>
 

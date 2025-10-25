@@ -1,4 +1,5 @@
 #include "HexNum.h"
+
 #include <iostream>
 #include <algorithm>
 #include <stdexcept>
@@ -7,29 +8,28 @@ HexNum::HexNum() {
     digits_.push_back(0);
 }
 
-HexNum::HexNum(const std::string& hex_str){
+HexNum::HexNum(const std::string& hex_str) {
     if (hex_str.empty()) {
-        digits_.push_back(0);
-        return;
+        throw std::invalid_argument("Empty");
         
     }
 
-    for (int i = hex_str.length() - 1; i >= 0; i--){
+    for (int i = hex_str.length() - 1; i >= 0; i--) {
         char c = hex_str[i];
         unsigned char digit;
 
-        if (c >= '0' && c <= '9'){
+        if (c >= '0' && c <= '9') {
             digit = c - '0';
-        } else if (c >= 'A' && c <= 'F'){
+        } else if (c >= 'A' && c <= 'F') {
             digit = c - 'A' + 10;
-        } else if (c >= 'a' && c <= 'f'){
+        } else if (c >= 'a' && c <= 'f') {
             digit = c - 'a' + 10;
-    }else{
-        return;
+    } else {
+        std::invalid_argument("Invalid hex character");
     }
     digits_.push_back(digit);
     }
-    while (digits_.getSize() > 1 && digits_.get(digits_.getSize() - 1) == 0){
+    while (digits_.getSize() > 1 && digits_.get(digits_.getSize() - 1) == 0) {
         digits_.pop_back();
     }
 }
@@ -37,28 +37,28 @@ HexNum::HexNum(const std::string& hex_str){
 HexNum::HexNum(const HexNum& other): digits_(other.digits_){
 }
 
-void HexNum::print() const{
-    if(is_zero()){
+void HexNum::print() const {
+    if(is_zero()) {
         std::cout << '0';
         return;
     }
 
-    for (int i = digits_.getSize() - 1; i >= 0; i--){
+    for (int i = digits_.getSize() - 1; i >= 0; i--) {
         unsigned char digit = digits_.get(i);
-        if (digit < 10){
+        if (digit < 10) {
             std::cout << static_cast<char>('0' + digit);
-        }else {
+        } else {
             std::cout << static_cast<char>('A' + (digit - 10));
         }
     }
 }
 
-size_t HexNum::get_size() const{
+size_t HexNum::get_size() const {
     return digits_.getSize();
 }
 
-unsigned char HexNum::get_digit(size_t index) const{
-    if(index >= digits_.getSize()){
+unsigned char HexNum::get_digit(size_t index) const {
+    if(index >= digits_.getSize()) {
         return 0;
     }
     return digits_.get(index);
@@ -66,7 +66,7 @@ unsigned char HexNum::get_digit(size_t index) const{
 
 void HexNum::set_digit(size_t index, unsigned char digit) {
     if (digit >= 16) {
-        return;
+        throw std::invalid_argument("Digit must be less than 16");
     }
     
     if (index < digits_.getSize()) {

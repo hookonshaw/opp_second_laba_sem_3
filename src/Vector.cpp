@@ -1,18 +1,20 @@
 #include "Vector.h"
 
+#include <stdexcept>
+
 
 DynamicArray::DynamicArray() : data_(nullptr), size_(0), capacity_(0) {}
 
-DynamicArray::~DynamicArray(){
+DynamicArray::~DynamicArray() {
     delete[] data_;
 }
 
 DynamicArray::DynamicArray(const DynamicArray& other) : data_(other.data_), size_(other.size_), capacity_(other.capacity_)
 
 {
-    if (capacity_ > 0){
+    if (capacity_ > 0) {
         data_ = new unsigned char [capacity_];
-        for (size_t i = 0; i < size_; i++){
+        for (size_t i = 0; i < size_; i++) {
             data_[i] = other.data_[i];
         }
     }
@@ -31,8 +33,8 @@ void DynamicArray::resize(size_t new_capacity) {
     capacity_ = new_capacity;
 }
 
-void DynamicArray::push_back(unsigned char value){
-    if (size_ >= capacity_){
+void DynamicArray::push_back(unsigned char value) {
+    if (size_ >= capacity_) {
         size_t new_capacity = (capacity_ == 0) ? 1 : capacity_ * 2;
         resize(new_capacity);
     }
@@ -41,35 +43,37 @@ void DynamicArray::push_back(unsigned char value){
 }
 
 
-unsigned char DynamicArray::get(size_t index) const{
-    if (index >= size_){
-        return 0;
+unsigned char DynamicArray::get(size_t index) const {
+    if (index >= size_) {
+        throw std::invalid_argument("Index out of range");
     }
     return data_[index];
 }
 
-void DynamicArray::set(size_t index, unsigned char value){
-    if (index >= size_){
-        return;
+void DynamicArray::set(size_t index, unsigned char value) {
+    if (index >= size_) {
+        throw std::invalid_argument("Index out of range");
     }
     data_[index] = value;
 }
 
-size_t DynamicArray::getSize() const{
+size_t DynamicArray::getSize() const {
     return size_;
 }
 
-size_t DynamicArray::getCapacity() const{
+size_t DynamicArray::getCapacity() const {
     return capacity_;
 }
 
 void DynamicArray::pop_back() {
-    if (size_ > 0){
+    if (size_ > 0) {
         --size_;
+    } else {
+        throw std::invalid_argument("Can't pop from empty array");
     }
 }
 
-bool DynamicArray::isEmpty() const{
+bool DynamicArray::isEmpty() const {
     return size_ == 0;
 }
 

@@ -1,5 +1,7 @@
 #include "HexNum.h"
+
 #include <gtest/gtest.h>
+
 
 TEST(HexNumConstructorTest, StringConstructor) {
     HexNum h("A3F");
